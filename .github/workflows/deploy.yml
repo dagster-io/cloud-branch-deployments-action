@@ -1,0 +1,62 @@
+name: Dagster Prod Deploy
+on:
+  push:
+    branches:
+      - 'main'
+
+env:
+  DAGSTER_CLOUD_URL: https://pied-piper.dogfood.dagster.cloud
+
+jobs:
+  dagster_cloud_build_push:
+    runs-on: ubuntu-latest
+    name: Dagster Prod Deploy
+    strategy:
+      fail-fast: false
+      matrix:
+        # Here, define the code locations that should be built and deployed
+        location:
+          - name: example_location
+            build_folder: example
+            registry: 764506304434.dkr.ecr.us-west-2.amazonaws.com/branch-deployments-gh-action-test
+            location_file: example/cloud_workspace.yaml
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v1
+          
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: ${{ matrix.location.build_folder }}
+          push: true
+          tags: "${{ matrix.location.registry }}:${{ github.sha }}"
+          labels: |
+            branch=${{ github.head_ref }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Deploy to Dagster Cloud
+        uses: ./deploy
+        id: deploy
+        with:
+          deployment: prod
+          pr: "${{ github.event.number }}"
+          location: ${{ toJson(matrix.location) }}
+          image_tag: ${{ github.sha }}
+        env:
+          DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}

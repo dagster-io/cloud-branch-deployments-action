@@ -8,7 +8,7 @@ jobs:
       matrix:
         location:
           - name: test
-            dockerfile: example/Dockerfile
+            build_folder: example
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -31,6 +31,6 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          file: ${{ matrix.location.dockerfile }}
+          context: ${{ matrix.location.build_folder }}
           push: true
           tags: 764506304434.dkr.ecr.us-west-2.amazonaws.com/branch-deployments-gh-action-test:latest

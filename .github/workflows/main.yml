@@ -34,4 +34,4 @@ jobs:
         with:
           context: ${{ matrix.location.build_folder }}
           push: true
-          tags: "${{ matrix.location.registry }}:latest"
+          tags: "${{ matrix.location.registry }}:${{ github.sha }}"

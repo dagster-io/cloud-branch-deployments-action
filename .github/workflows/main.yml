@@ -4,6 +4,9 @@ jobs:
   hello_world_job:
     runs-on: ubuntu-latest
     name: A job to say hello
+    strategy:
+      matrix:
+        code_location: ["foo", "bar"]
     steps:
       # To use this repository's private action,
       # you must check out the repository
@@ -16,4 +19,4 @@ jobs:
           who-to-greet: 'Mona the Octocat'
       # Use the output from the `hello` step
       - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+        run: echo "The time was ${{ steps.hello.outputs.time }} ${{ matrix.code_location }}"

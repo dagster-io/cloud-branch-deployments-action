@@ -1,8 +1,8 @@
 
 # Container image that runs your code
-FROM python:3.8-slim
+FROM 764506304434.dkr.ecr.us-west-2.amazonaws.com/dagster-cloud-cli-dev:latest
 
-RUN pip install dagster-cloud-cli
+# RUN pip install dagster-cloud-cli
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh

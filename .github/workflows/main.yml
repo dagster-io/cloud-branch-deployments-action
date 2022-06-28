@@ -1,11 +1,12 @@
 on: [push]
 
 jobs:
-  hello_world_job:
+  dagster_cloud_build_push:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: Dagster Cloud
     strategy:
       matrix:
+        # Here, define the code locations that should be built and deployed
         location:
           - name: test
             build_folder: example

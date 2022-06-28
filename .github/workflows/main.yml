@@ -35,4 +35,5 @@ jobs:
           context: ${{ matrix.location.build_folder }}
           push: true
           tags: "${{ matrix.location.registry }}:${{ github.sha }}"
-          labels: ["branch=${{ github.head_ref }}"]
+          labels: |
+            branch=${{ github.head_ref }}

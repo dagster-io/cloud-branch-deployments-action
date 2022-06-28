@@ -9,6 +9,7 @@ jobs:
         location:
           - name: test
             build_folder: example
+            registry: 764506304434.dkr.ecr.us-west-2.amazonaws.com/branch-deployments-gh-action-test
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -33,4 +34,4 @@ jobs:
         with:
           context: ${{ matrix.location.build_folder }}
           push: true
-          tags: 764506304434.dkr.ecr.us-west-2.amazonaws.com/branch-deployments-gh-action-test:latest
+          tags: "${{ matrix.location.registry }}:latest"

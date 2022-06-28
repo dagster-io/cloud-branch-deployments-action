@@ -6,21 +6,31 @@ jobs:
     name: A job to say hello
     strategy:
       matrix:
-        code_location: 
-          - name: foo
-            dockerfile: ./foo
-          - name: bar
-            dockerfile: ./bar
+        location:
+          - name: test
+            dockerfile: example/Dockerfile
     steps:
-      # To use this repository's private action,
-      # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Hello world action step
-        uses: ./ # Uses an action in the root directory
-        id: hello
+      # - name: Hello world action step
+      #   uses: ./ # Uses an action in the root directory
+      #   id: hello
+      #   with:
+      #     who-to-greet: 'Mona the Octocat'
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          who-to-greet: 'Mona the Octocat'
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }} ${{ matrix.code_location.name }} ${{ matrix.code_location.dockerfile}} "
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          file: ${{ matrix.location.dockerfile }}
+          push: true
+          tags: 764506304434.dkr.ecr.us-west-2.amazonaws.com/branch-deployments-gh-action-test:latest

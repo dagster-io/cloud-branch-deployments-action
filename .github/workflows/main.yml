@@ -6,7 +6,11 @@ jobs:
     name: A job to say hello
     strategy:
       matrix:
-        code_location: ["foo", "bar"]
+        code_location: 
+          - name: foo
+            dockerfile: ./foo
+          - name: bar
+            dockerfile: ./bar
     steps:
       # To use this repository's private action,
       # you must check out the repository

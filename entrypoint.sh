@@ -1,5 +1,7 @@
 #!/bin/sh -
 
+env
+
 TIMESTAMP=$(git log -1 --format='%cd' --date=unix)
 MESSAGE=$(git log -1 --format='%s')
 EMAIL=$(git log -1 --format='%ae')

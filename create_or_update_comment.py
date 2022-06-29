@@ -1,15 +1,19 @@
 from github import Github
 import os
 
-SUCCESS_IMAGE_URL = (
-    "https://github.com/dagster-io/cloud-branch-deployments-action/blob/main/assets/success.svg"
-)
-PENDING_IMAGE_URL = (
-    "https://github.com/dagster-io/cloud-branch-deployments-action/blob/main/assets/pending.svg"
-)
-FAILED_IMAGE_URL = (
-    "https://github.com/dagster-io/cloud-branch-deployments-action/blob/main/assets/failed.svg"
-)
+# SUCCESS_IMAGE_URL = (
+#     "https://github.com/dagster-io/cloud-branch-deployments-action/blob/main/assets/success.svg"
+# )
+# PENDING_IMAGE_URL = (
+#     "https://github.com/dagster-io/cloud-branch-deployments-action/blob/main/assets/pending.svg"
+# )
+# FAILED_IMAGE_URL = (
+#     "https://github.com/dagster-io/cloud-branch-deployments-action/blob/main/assets/failed.svg"
+# )
+
+SUCCESS_IMAGE_URL = "https://raw.githubusercontent.com/dagster-io/dagster/master/js_modules/dagit/packages/app/public/favicon-run-success.svg"
+PENDING_IMAGE_URL = "https://raw.githubusercontent.com/dagster-io/dagster/master/js_modules/dagit/packages/app/public/favicon-run-pending.svg"
+FAILED_IMAGE_URL = "https://raw.githubusercontent.com/dagster-io/dagster/master/js_modules/dagit/packages/app/public/favicon-run-failed.svg"
 
 
 def main():

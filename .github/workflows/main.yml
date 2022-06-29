@@ -31,10 +31,10 @@ jobs:
         uses: ./ # Uses an action in the root directory
         with:
           action: building
-          pr-number: ${{ github.event.number }}
+          pr-number: "${{ github.event.number }}""
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
@@ -48,6 +48,6 @@ jobs:
         uses: ./ # Uses an action in the root directory
         with:
           action: complete
-          pr-number: ${{ github.event.number }}
+          pr-number: "${{ github.event.number }}""
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

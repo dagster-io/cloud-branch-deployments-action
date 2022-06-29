@@ -1,6 +1,8 @@
 from github import Github
 import os
 
+print(os.environ)
+
 g = Github(os.getenv("GITHUB_TOKEN"))
 pr_id = int(os.getenv("PR_NUMBER"))
 repo_id = os.getenv("GITHUB_REPOSITORY")

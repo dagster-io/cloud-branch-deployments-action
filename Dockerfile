@@ -1,7 +1,7 @@
 
 # Container image that runs your code
 FROM 764506304434.dkr.ecr.us-west-2.amazonaws.com/dagster-cloud-cli-dev:0.1
-RUN apk add --no-cache make automake gcc g++ git 
+RUN apt install git -y
 
 # RUN pip install dagster-cloud-cli
 

@@ -37,7 +37,7 @@ BUILDING_IMAGE = """
 
 deployment_url = f"https://7151-136-24-32-204.ngrok.io/1/{deployment_name}/"
 
-status_image = SUCCESS_IMAGE if action == "complete" else BUILDING_IMAGE
+status_image = (SUCCESS_IMAGE if action == "complete" else BUILDING_IMAGE).replace("\n", " ")
 message = f"""
 Your pull request is automatically being deployed to Dagster Cloud.
 

@@ -1,21 +1,12 @@
-#!/bin/sh -l
-
-echo "Hello $1"
-time=$(date)
-echo "::set-output name=time::$time"
-
-help=$(dagster-cloud branch-deployment create-or-update --help)
-echo "::set-output name=help::$help"
-
-ls -la
+#!/bin/sh -
 
 TIMESTAMP=$(git log -1 --format='%cd' --date=unix)
 MESSAGE=$(git log -1 --format='%s')
 EMAIL=$(git log -1 --format='%ae')
 NAME=$(git log -1 --format='%an')
-PR_NUMBER=$(gh pr view --json number -q .number)
+PR_NUMBER=$1
 PR_URL="https://github.com/${GITHUB_REPOSITORY}/pull/${PR_NUMBER}"
-if [ $? -eq 1 ]
+if [ -z $PR_NUMBER ]
 then
     PR_URL=""
 fi

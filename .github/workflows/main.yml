@@ -1,4 +1,4 @@
-on: [push]
+on: [pull_request]
 
 jobs:
   dagster_cloud_build_push:
@@ -36,4 +36,4 @@ jobs:
       - name: Dagster Cloud deploy
         uses: ./ # Uses an action in the root directory
         with:
-          who-to-greet: 'Mona the Octocat'
+          pr-number: ${{ github.event.number }}

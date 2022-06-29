@@ -1,11 +1,11 @@
 #!/bin/sh -
 
 env
-git fetch "origin/${GITHUB_HEAD_REF}"
-TIMESTAMP=$(git log -1 --format='%cd' --date=unix origin/$GITHUB_HEAD_REF)
-MESSAGE=$(git log -1 --format='%s' origin/$GITHUB_HEAD_REF)
-EMAIL=$(git log -1 --format='%ae' origin/$GITHUB_HEAD_REF)
-NAME=$(git log -1 --format='%an' origin/$GITHUB_HEAD_REF)
+
+TIMESTAMP=$(git log -1 --format='%cd' --date=unix)
+MESSAGE=$(git log -1 --format='%s')
+EMAIL=$(git log -1 --format='%ae')
+NAME=$(git log -1 --format='%an')
 PR_NUMBER=$1
 PR_URL="https://github.com/${GITHUB_REPOSITORY}/pull/${PR_NUMBER}"
 if [ -z $PR_NUMBER ]

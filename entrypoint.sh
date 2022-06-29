@@ -9,7 +9,7 @@ NAME=$(git log -1 --format='%an')
 PR_URL="https://github.com/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
 COMMENTS_URL="${PR_URL}/comments"
 
-DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
+export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
     --url https://7151-136-24-32-204.ngrok.io/1/prod \
     --api-token "agent:test:hardcoded" \
     --git-repo-name "$GITHUB_REPOSITORY" \

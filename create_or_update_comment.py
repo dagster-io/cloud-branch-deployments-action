@@ -15,12 +15,13 @@ pr = repo.get_pull(pr_id)
 
 comments = pr.get_issue_comments()
 comment_to_update = None
-for comment in comments:
-    if comment.user.login == current_user.login:
-        comment_to_update = comment
-        break
+# for comment in comments:
+#     if comment.user.login == current_user.login:
+#         comment_to_update = comment
+#         break
 
 message = f"{action} :sunglasses:"
+
 
 if comment_to_update:
     comment_to_update.edit(message)

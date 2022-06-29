@@ -31,7 +31,7 @@ jobs:
         uses: ./ # Uses an action in the root directory
         with:
           action: building
-          pr-number: "${{ github.event.number }}"
+          pr: "${{ github.event.number }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -48,6 +48,6 @@ jobs:
         uses: ./ # Uses an action in the root directory
         with:
           action: complete
-          pr-number: "${{ github.event.number }}"
+          pr: "${{ github.event.number }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

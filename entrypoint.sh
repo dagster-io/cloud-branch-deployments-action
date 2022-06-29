@@ -6,3 +6,5 @@ echo "::set-output name=time::$time"
 
 help=$(dagster-cloud branch-deployment create-or-update --help)
 echo "::set-output name=help::$help"
+
+env

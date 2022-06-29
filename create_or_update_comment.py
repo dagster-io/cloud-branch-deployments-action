@@ -39,11 +39,11 @@ def main():
     status_image = f'<img src="{image_url}" width=25 height=25/>'
 
     message = f"""
-    Your pull request is automatically being deployed to Dagster Cloud.
+Your pull request is automatically being deployed to Dagster Cloud.
 
-    | Location      | Status          | Link              |
-    | ------------- | --------------- | ----------------- |
-    | `my_location` | {status_image}  | {deployment_url}  |
+| Location      | Status          | Link              |
+| ------------- | --------------- | ----------------- |
+| `my_location` | {status_image}  | {deployment_url}  |
     """
 
     if comment_to_update:

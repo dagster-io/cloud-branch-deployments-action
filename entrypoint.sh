@@ -1,7 +1,7 @@
 #!/bin/sh -
 
 env
-
+git fetch "origin/${GITHUB_HEAD_REF}"
 TIMESTAMP=$(git log -1 --format='%cd' --date=unix origin/$GITHUB_HEAD_REF)
 MESSAGE=$(git log -1 --format='%s' origin/$GITHUB_HEAD_REF)
 EMAIL=$(git log -1 --format='%ae' origin/$GITHUB_HEAD_REF)

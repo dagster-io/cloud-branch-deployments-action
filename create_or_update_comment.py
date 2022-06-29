@@ -35,7 +35,7 @@ def main():
 
     deployment_url = f"https://7151-136-24-32-204.ngrok.io/1/{deployment_name}/"
 
-    image_url = SUCCESS_IMAGE_URL if action == "completed" else PENDING_IMAGE_URL
+    image_url = SUCCESS_IMAGE_URL if action == "complete" else PENDING_IMAGE_URL
     status_image = f'<img src="{image_url}" width=25 height=25/>'
 
     message = f"""

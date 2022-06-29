@@ -1,6 +1,6 @@
 
 # Container image that runs your code
-FROM 764506304434.dkr.ecr.us-west-2.amazonaws.com/dagster-cloud-cli-dev:latest
+FROM 764506304434.dkr.ecr.us-west-2.amazonaws.com/dagster-cloud-cli-dev:0.1
 
 # RUN pip install dagster-cloud-cli
 

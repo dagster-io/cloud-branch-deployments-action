@@ -4,7 +4,9 @@ FROM 764506304434.dkr.ecr.us-west-2.amazonaws.com/dagster-cloud-cli-dev:0.1
 RUN apt update && apt install git curl -y
 # RUN pip install dagster-cloud-cli
 
+RUN pip install PyGithub
 # Copies your code file from your action repository to the filesystem path `/` of the container
+COPY create_or_update_comment.py /create_or_update_comment.py
 COPY entrypoint.sh /entrypoint.sh
 
 # Code file to execute when the docker container starts up (`entrypoint.sh`)

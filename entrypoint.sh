@@ -2,11 +2,15 @@
 
 env
 
+ACTION=$1
+
 TIMESTAMP=$(git log -1 --format='%cd' --date=unix)
 MESSAGE=$(git log -1 --format='%s')
 EMAIL=$(git log -1 --format='%ae')
 NAME=$(git log -1 --format='%an')
-PR_NUMBER=$1
+
+PR_NUMBER=$2
+
 PR_URL="https://github.com/${GITHUB_REPOSITORY}/pull/${PR_NUMBER}"
 COMMENTS_URL="${PR_URL}/comments"
 
@@ -23,9 +27,10 @@ dagster-cloud branch-deployment create-or-update \
     --author-name "$NAME" \
     --author-email "$EMAIL"
 
-curl \
-    -X POST \
-    $COMMENTS_URL \
-    -H "Content-Type: application/json" \
-    -H "Authorization: token $GITHUB_TOKEN" \
-    --data '{ "body": "blah blah" }'
+python create_or_update_comment.py
+# curl \
+#     -X POST \
+#     $COMMENTS_URL \
+#     -H "Content-Type: application/json" \
+#     -H "Authorization: token $GITHUB_TOKEN" \
+#     --data '{ "body": "blah blah" }'

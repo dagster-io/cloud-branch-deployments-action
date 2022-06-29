@@ -2,6 +2,8 @@
 name: 'Hello World'
 description: 'Greet someone and record the time'
 inputs:
+  action:
+    required: true
   pr-number:
     required: false
 outputs:
@@ -11,4 +13,5 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
+    - ${{ inputs.action }}
     - ${{ inputs.pr-number }}

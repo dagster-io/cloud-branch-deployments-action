@@ -2,16 +2,14 @@
 
 env
 
-ACTION=$INPUT_ACTION
 
 TIMESTAMP=$(git log -1 --format='%cd' --date=unix)
 MESSAGE=$(git log -1 --format='%s')
 EMAIL=$(git log -1 --format='%ae')
 NAME=$(git log -1 --format='%an')
 
-PR_NUMBER=$1
 
-PR_URL="https://github.com/${GITHUB_REPOSITORY}/pull/${PR_NUMBER}"
+PR_URL="https://github.com/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
 COMMENTS_URL="${PR_URL}/comments"
 
 dagster-cloud branch-deployment create-or-update \

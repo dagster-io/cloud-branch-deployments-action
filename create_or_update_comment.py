@@ -4,9 +4,9 @@ import os
 print(os.environ)
 
 g = Github(os.getenv("GITHUB_TOKEN"))
-pr_id = int(os.getenv("PR_NUMBER"))
+pr_id = int(os.getenv("INPUT_PR"))
 repo_id = os.getenv("GITHUB_REPOSITORY")
-action = os.getenv("ACTION")
+action = os.getenv("INPUT_ACTION")
 
 current_user = g.get_user()
 

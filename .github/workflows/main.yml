@@ -37,3 +37,5 @@ jobs:
         uses: ./ # Uses an action in the root directory
         with:
           pr-number: ${{ github.event.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

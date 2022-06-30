@@ -14,7 +14,5 @@ if [ -z $DAGSTER_CLOUD_URL ]; then
   export DAGSTER_CLOUD_URL="https://dagster.cloud/${INPUT_ORGANIZATION_ID}"
 fi
 
-echo $LOCATION_NAME
-echo "HMMMM"
-
+export LOCATION_NAME=$LOCATION_NAME
 python create_or_update_comment.py

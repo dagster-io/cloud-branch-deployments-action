@@ -41,7 +41,7 @@ def main():
     image_url = SUCCESS_IMAGE_URL if action == "complete" else PENDING_IMAGE_URL
     status_image = f'<img src="{image_url}" width=25 height=25/>'
 
-    time_str = datetime.datetime.utcnow().strftime("%b %d, %Y at %I:%M %p (%Z)")
+    time_str = datetime.datetime.now(datetime.timezone.utc).strftime("%b %d, %Y at %I:%M %p (%Z)")
 
     message = f"""
 Your pull request is automatically being deployed to Dagster Cloud.

@@ -3,10 +3,7 @@
 echo $INPUT_LOCATION
 
 # Load JSON-encoded location info into env vars
-source <(python -c "\
-import json, os; \
-all(print(f'LOCATION_{k.upper()}={v}') for k, v in json.loads('${INPUT_LOCATION}').items()) \
-")
+source $(python expand_json_env.py)
 
 env
 

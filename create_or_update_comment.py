@@ -25,6 +25,7 @@ def main():
     deployment_name = os.getenv("DEPLOYMENT_NAME")
 
     org_url = os.getenv("INPUT_DAGSTER_CLOUD_URL")
+    github_run_url = os.getenv("GITHUB_RUN_URL")
 
     repo = g.get_repo(repo_id)
     pr = repo.get_pull(pr_id)
@@ -43,7 +44,7 @@ def main():
         if action == "complete"
         else (FAILED_IMAGE_URL if action == "failed" else PENDING_IMAGE_URL)
     )
-    status_image = f'<img src="{image_url}" width=25 height=25/>'
+    status_image = f'[<img src="{image_url}" width=25 height=25/>]({github_run_url})'
 
     time_str = datetime.datetime.now(datetime.timezone.utc).strftime("%b %d, %Y at %I:%M %p (%Z)")
 

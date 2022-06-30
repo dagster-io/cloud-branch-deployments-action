@@ -5,7 +5,10 @@ MESSAGE=$(git log -1 --format='%s')
 EMAIL=$(git log -1 --format='%ae')
 NAME=$(git log -1 --format='%an')
 
-PR_URL="https://github.com/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
+PR_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
+GITHUB_RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+BRANCH_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_HEAD_REF}"
+
 COMMENTS_URL="${PR_URL}/comments"
 
 if [ -z $INPUT_DAGSTER_CLOUD_URL ]; then
@@ -17,7 +20,7 @@ export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
     --api-token "$DAGSTER_CLOUD_API_TOKEN" \
     --git-repo-name "$GITHUB_REPOSITORY" \
     --branch-name "$GITHUB_HEAD_REF" \
-    --branch-url "https://github.com/${GITHUB_REPOSITORY}/tree/${GITHUB_HEAD_REF}" \
+    --branch-url "$BRANCH_URL" \
     --pull-request-url "$PR_URL" \
     --commit-hash "$GITHUB_SHA" \
     --timestamp "$TIMESTAMP" \

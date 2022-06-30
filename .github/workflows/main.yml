@@ -42,7 +42,7 @@ jobs:
             branch=${{ github.head_ref }}
 
       - name: Dagster Cloud deploy
-        uses: ./ # Uses an action in the root directory
+        uses: ./deploy
         with:
           action: complete
           pr: "${{ github.event.number }}"

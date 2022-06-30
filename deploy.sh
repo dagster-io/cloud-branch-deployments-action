@@ -28,11 +28,6 @@ export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
     --author-name "$NAME" \
     --author-email "$EMAIL")
 
-if [ $? -ne 0 ]; then
-    export INPUT_ACTION="failed"
-    python create_or_update_comment.py
-    exit 1
-fi
 
 dagster-cloud workspace add-location \
     --url "${INPUT_DAGSTER_CLOUD_URL}/${DEPLOYMENT_NAME}" \
@@ -40,11 +35,3 @@ dagster-cloud workspace add-location \
     --location-file "${INPUT_LOCATION_FILE}" \
     --location-name "${INPUT_LOCATION_NAME}" \
     --image "${INPUT_REGISTRY}:${INPUT_IMAGE_TAG}"
-
-if [ $? -ne 0 ]; then
-    export INPUT_ACTION="failed"
-    python create_or_update_comment.py
-    exit 1
-fi
-
-python create_or_update_comment.py

@@ -1,0 +1,27 @@
+# action.yml
+name: 'Hello World'
+description: 'Greet someone and record the time'
+inputs:
+  action:
+    required: false
+    default: "complete"
+  pr:
+    required: false
+  registry:
+    required: false
+  location_file:
+    required: false
+  image_tag:
+    required: false
+  location_name:
+    required: false
+  dagster_cloud_url:
+    required: false
+  organization_id:
+    required: false
+runs:
+  using: 'docker'
+  image: '../Dockerfile'
+  entrypoint: 'deploy.sh'
+  args:
+    - ${{ inputs.pr }}

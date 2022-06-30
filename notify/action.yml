@@ -21,6 +21,7 @@ inputs:
     required: false
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: './Dockerfile'
+  entrypoint: 'notify.sh'
   args:
     - ${{ inputs.pr }}

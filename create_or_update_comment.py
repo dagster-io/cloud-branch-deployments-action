@@ -24,8 +24,10 @@ def main():
     action = os.getenv("INPUT_ACTION")
     deployment_name = os.getenv("DEPLOYMENT_NAME")
 
-    org_url = os.getenv("INPUT_DAGSTER_CLOUD_URL")
+    org_url = os.getenv("DAGSTER_CLOUD_URL")
     github_run_url = os.getenv("GITHUB_RUN_URL")
+
+    location_name = os.getenv("LOCATION_NAME")
 
     repo = g.get_repo(repo_id)
     pr = repo.get_pull(pr_id)
@@ -33,7 +35,11 @@ def main():
     comments = pr.get_issue_comments()
     comment_to_update = None
     for comment in comments:
-        if comment.user.login == "github-actions[bot]" and "Dagster Cloud" in comment.body:
+        if (
+            comment.user.login == "github-actions[bot]"
+            and "Dagster Cloud" in comment.body
+            and f"`{location_name}`" in comment.body
+        ):
             comment_to_update = comment
             break
 
@@ -51,9 +57,9 @@ def main():
     message = f"""
 Your pull request is automatically being deployed to Dagster Cloud.
 
-| Location      | Status          | Link                               | Updated         |
-| ------------- | --------------- | ---------------------------------- | --------------- | 
-| `my_location` | {status_image}  | [View in Cloud]({deployment_url})  | {time_str}      |
+| Location          | Status          | Link                               | Updated         |
+| ----------------- | --------------- | ---------------------------------- | --------------- | 
+| `{location_name}` | {status_image}  | [View in Cloud]({deployment_url})  | {time_str}      |
     """
 
     if comment_to_update:

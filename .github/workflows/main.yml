@@ -53,3 +53,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
+
+      - name: Dagster Cloud notify
+        uses: ./notify
+        with:
+          pr: "${{ github.event.number }}"
+          location: ${{ toJson(matrix.location) }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

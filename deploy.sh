@@ -1,12 +1,11 @@
 #!/bin/bash -
 
-echo $INPUT_LOCATION
-
 # Load JSON-encoded location info into env vars
+# This produces the env vars
+# LOCATION_NAME, LOCATION_LOCATION_FILE, LOCATION_REGISTRY
 source $(python expand_json_env.py)
 
-env
-
+# Extract git metadata
 TIMESTAMP=$(git log -1 --format='%cd' --date=unix)
 MESSAGE=$(git log -1 --format='%s')
 EMAIL=$(git log -1 --format='%ae')

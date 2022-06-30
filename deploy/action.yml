@@ -2,9 +2,6 @@
 name: 'Hello World'
 description: 'Greet someone and record the time'
 inputs:
-  action:
-    required: false
-    default: "complete"
   pr:
     required: false
   registry:

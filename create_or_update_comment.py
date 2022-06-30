@@ -45,6 +45,8 @@ def main():
 
     deployment_url = f"{org_url}/{deployment_name}/"
 
+    link = f"[View in Cloud]({deployment_url})" if action != "pending" else "Building..."
+
     image_url = (
         SUCCESS_IMAGE_URL
         if action == "complete"
@@ -57,9 +59,9 @@ def main():
     message = f"""
 Your pull request is automatically being deployed to Dagster Cloud.
 
-| Location          | Status          | Link                               | Updated         |
-| ----------------- | --------------- | ---------------------------------- | --------------- | 
-| `{location_name}` | {status_image}  | [View in Cloud]({deployment_url})  | {time_str}      |
+| Location          | Status          | Link    | Updated         |
+| ----------------- | --------------- | ------- | --------------- | 
+| `{location_name}` | {status_image}  | {link}  | {time_str}      |
     """
 
     if comment_to_update:

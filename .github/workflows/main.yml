@@ -39,6 +39,7 @@ jobs:
           location_name: ${{ matrix.location.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
@@ -60,3 +61,4 @@ jobs:
           location_name: ${{ matrix.location.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}

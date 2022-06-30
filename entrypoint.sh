@@ -10,8 +10,8 @@ PR_URL="https://github.com/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
 COMMENTS_URL="${PR_URL}/comments"
 
 export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
-    --url https://7151-136-24-32-204.ngrok.io/1/prod \
-    --api-token "agent:test:hardcoded" \
+    --url https://pied-piper.dogfood.dagster.cloud/prod/ \
+    --api-token "$DAGSTER_CLOUD_API_TOKEN" \
     --git-repo-name "$GITHUB_REPOSITORY" \
     --branch-name "$GITHUB_HEAD_REF" \
     --branch-url "https://github.com/${GITHUB_REPOSITORY}/tree/${GITHUB_HEAD_REF}" \
@@ -23,8 +23,8 @@ export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
     --author-email "$EMAIL")
 
 dagster-cloud workspace add-location \
-    --url "https://7151-136-24-32-204.ngrok.io/1/${DEPLOYMENT_NAME}" \
-    --api-token "agent:test:hardcoded" \
+    --url "https://pied-piper.dogfood.dagster.cloud/${DEPLOYMENT_NAME}" \
+    --api-token "$DAGSTER_CLOUD_API_TOKEN" \
     --location-file "${INPUT_LOCATION_FILE}" \
     --location-name "${INPUT_LOCATION_NAME}" \
     --image "${INPUT_REGISTRY}:${INPUT_IMAGE_TAG}"

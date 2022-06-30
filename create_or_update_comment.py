@@ -33,7 +33,7 @@ def main():
             comment_to_update = comment
             break
 
-    deployment_url = f"https://7151-136-24-32-204.ngrok.io/1/{deployment_name}/"
+    deployment_url = f"https://pied-piper.dogfood.dagster.cloud/{deployment_name}/"
 
     image_url = SUCCESS_IMAGE_URL if action == "complete" else PENDING_IMAGE_URL
     status_image = f'<img src="{image_url}" width=25 height=25/>'

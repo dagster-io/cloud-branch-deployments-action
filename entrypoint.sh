@@ -10,7 +10,7 @@ PR_URL="https://github.com/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
 COMMENTS_URL="${PR_URL}/comments"
 
 export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
-    --url https://pied-piper.dogfood.dagster.cloud/prod/ \
+    --url https://pied-piper.dogfood.dagster.cloud/prod \
     --api-token "$DAGSTER_CLOUD_API_TOKEN" \
     --git-repo-name "$GITHUB_REPOSITORY" \
     --branch-name "$GITHUB_HEAD_REF" \

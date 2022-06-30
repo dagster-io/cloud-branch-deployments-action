@@ -1,9 +1,9 @@
-#!/bin/sh -
+#!/bin/bash -
 
 echo $INPUT_LOCATION
 
 # Load JSON-encoded location info into env vars
-. $(python expand_json_env.py)
+source $(python expand_json_env.py)
 
 env
 

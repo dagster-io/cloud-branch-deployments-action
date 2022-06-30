@@ -1,3 +1,4 @@
+import datetime
 from github import Github
 import os
 
@@ -40,12 +41,14 @@ def main():
     image_url = SUCCESS_IMAGE_URL if action == "complete" else PENDING_IMAGE_URL
     status_image = f'<img src="{image_url}" width=25 height=25/>'
 
+    time_str = datetime.datetime.utcnow().strftime("%b %d, %Y at %I:%M %p (%Z)")
+
     message = f"""
 Your pull request is automatically being deployed to Dagster Cloud.
 
-| Location      | Status          | Link              |
-| ------------- | --------------- | ----------------- |
-| `my_location` | {status_image}  | [View in Cloud]({deployment_url})  |
+| Location      | Status          | Link                               | Updated         |
+| ------------- | --------------- | ---------------------------------- | --------------- | 
+| `my_location` | {status_image}  | [View in Cloud]({deployment_url})  | {time_str}      |
     """
 
     if comment_to_update:

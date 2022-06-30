@@ -6,7 +6,7 @@
 source $(python expand_json_env.py)
 
 PR_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
-export GITHUB_RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+export GITHUB_RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/runs/${GITHUB_RUN_NUMBER}"
 
 COMMENTS_URL="${PR_URL}/comments"
 

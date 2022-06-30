@@ -45,13 +45,16 @@ def main():
 
     deployment_url = f"{org_url}/{deployment_name}/"
 
-    link = f"[View in Cloud]({deployment_url})" if action != "pending" else "Building..."
+    message = f"[View in Cloud]({deployment_url})"
+    image_url = SUCCESS_IMAGE_URL
 
-    image_url = (
-        SUCCESS_IMAGE_URL
-        if action == "complete"
-        else (FAILED_IMAGE_URL if action == "failed" else PENDING_IMAGE_URL)
-    )
+    if action == "pending":
+        message = f"[Building]({github_run_url})"
+        image_url = PENDING_IMAGE_URL
+    elif action == "failed":
+        message = f"[Deploy failed]({github_run_url})"
+        image_url = FAILED_IMAGE_URL
+
     status_image = f'[<img src="{image_url}" width=25 height=25/>]({github_run_url})'
 
     time_str = datetime.datetime.now(datetime.timezone.utc).strftime("%b %d, %Y at %I:%M %p (%Z)")
@@ -61,7 +64,7 @@ Your pull request is automatically being deployed to Dagster Cloud.
 
 | Location          | Status          | Link    | Updated         |
 | ----------------- | --------------- | ------- | --------------- | 
-| `{location_name}` | {status_image}  | {link}  | {time_str}      |
+| `{location_name}` | {status_image}  | {message}  | {time_str}      |
     """
 
     if comment_to_update:

@@ -23,7 +23,7 @@ export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
     --author-email "$EMAIL")
 
 dagster-cloud workspace add-location \
-    --url https://7151-136-24-32-204.ngrok.io/1/prod \
+    --url "https://7151-136-24-32-204.ngrok.io/1/${DEPLOYMENT_NAME}" \
     --api-token "agent:test:hardcoded" \
     --location-file ./example/location.yaml \
     --image "764506304434.dkr.ecr.us-west-2.amazonaws.com/branch-deployments-gh-action-test:${GITHUB_SHA}"

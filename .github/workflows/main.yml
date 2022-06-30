@@ -35,6 +35,15 @@ jobs:
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Notify build start
+        uses: ./notify
+        with:
+          action: "pending"
+          pr: "${{ github.event.number }}"
+          location: ${{ toJson(matrix.location) }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
@@ -44,7 +53,7 @@ jobs:
           labels: |
             branch=${{ github.head_ref }}
 
-      - name: Dagster Cloud deploy
+      - name: Deploy to Dagster Cloud
         uses: ./deploy
         with:
           pr: "${{ github.event.number }}"

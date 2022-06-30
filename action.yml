@@ -15,6 +15,10 @@ inputs:
     required: false
   location_name:
     required: false
+  dagster_cloud_url:
+    required: false
+  organization_id:
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'

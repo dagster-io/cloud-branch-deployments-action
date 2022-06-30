@@ -5,12 +5,15 @@ MESSAGE=$(git log -1 --format='%s')
 EMAIL=$(git log -1 --format='%ae')
 NAME=$(git log -1 --format='%an')
 
-
 PR_URL="https://github.com/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
 COMMENTS_URL="${PR_URL}/comments"
 
+if [ -z $INPUT_DAGSTER_CLOUD_URL ]; then
+  export INPUT_DAGSTER_CLOUD_URL="https://dagster.cloud/${INPUT_ORGANIZATION_ID}"
+fi
+
 export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
-    --url https://pied-piper.dogfood.dagster.cloud/prod \
+    --url "$INPUT_DAGSTER_CLOUD_URL" \
     --api-token "$DAGSTER_CLOUD_API_TOKEN" \
     --git-repo-name "$GITHUB_REPOSITORY" \
     --branch-name "$GITHUB_HEAD_REF" \
@@ -23,7 +26,7 @@ export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
     --author-email "$EMAIL")
 
 dagster-cloud workspace add-location \
-    --url "https://pied-piper.dogfood.dagster.cloud/${DEPLOYMENT_NAME}" \
+    --url "${INPUT_DAGSTER_CLOUD_URL}/${DEPLOYMENT_NAME}" \
     --api-token "$DAGSTER_CLOUD_API_TOKEN" \
     --location-file "${INPUT_LOCATION_FILE}" \
     --location-name "${INPUT_LOCATION_NAME}" \

@@ -28,19 +28,6 @@ jobs:
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Dagster Cloud deploy
-        uses: ./ # Uses an action in the root directory
-        with:
-          action: building
-          pr: "${{ github.event.number }}"
-          registry: ${{ matrix.location.registry }}
-          location_file: ${{ matrix.location.location_file }}
-          image_tag: ${{ github.sha }}
-          location_name: ${{ matrix.location.name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
@@ -59,6 +46,7 @@ jobs:
           location_file: ${{ matrix.location.location_file }}
           image_tag: ${{ github.sha }}
           location_name: ${{ matrix.location.name }}
+          dagster_cloud_url: https://pied-piper.dogfood.dagster.cloud
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}

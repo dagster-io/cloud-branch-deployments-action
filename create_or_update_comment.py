@@ -23,6 +23,8 @@ def main():
     action = os.getenv("INPUT_ACTION")
     deployment_name = os.getenv("DEPLOYMENT_NAME")
 
+    org_url = os.getenv("INPUT_DAGSTER_CLOUD_URL")
+
     repo = g.get_repo(repo_id)
     pr = repo.get_pull(pr_id)
 
@@ -33,7 +35,7 @@ def main():
             comment_to_update = comment
             break
 
-    deployment_url = f"https://pied-piper.dogfood.dagster.cloud/{deployment_name}/"
+    deployment_url = f"{org_url}/{deployment_name}/"
 
     image_url = SUCCESS_IMAGE_URL if action == "complete" else PENDING_IMAGE_URL
     status_image = f'<img src="{image_url}" width=25 height=25/>'
@@ -43,7 +45,7 @@ Your pull request is automatically being deployed to Dagster Cloud.
 
 | Location      | Status          | Link              |
 | ------------- | --------------- | ----------------- |
-| `my_location` | {status_image}  | {deployment_url}  |
+| `my_location` | {status_image}  | [View in Cloud]({deployment_url})  |
     """
 
     if comment_to_update:

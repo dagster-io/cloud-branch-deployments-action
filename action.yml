@@ -7,6 +7,14 @@ inputs:
     default: "complete"
   pr:
     required: false
+  registry:
+    required: false
+  location_file:
+    required: false
+  image_tag:
+    required: false
+  location_name:
+    required: false
 outputs:
   time: # id of output
     description: 'The time we greeted you'

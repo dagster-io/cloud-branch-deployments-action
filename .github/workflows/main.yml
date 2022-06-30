@@ -11,6 +11,7 @@ jobs:
           - name: test
             build_folder: example
             registry: 764506304434.dkr.ecr.us-west-2.amazonaws.com/branch-deployments-gh-action-test
+            location_file: example/locations.yaml
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -32,6 +33,10 @@ jobs:
         with:
           action: building
           pr: "${{ github.event.number }}"
+          registry: ${{ matrix.location.registry }}
+          location_file: ${{ matrix.location.location_file }}
+          image_tag: ${{ github.sha }}
+          location_name: ${{ matrix.location.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -49,5 +54,9 @@ jobs:
         with:
           action: complete
           pr: "${{ github.event.number }}"
+          registry: ${{ matrix.location.registry }}
+          location_file: ${{ matrix.location.location_file }}
+          image_tag: ${{ github.sha }}
+          location_name: ${{ matrix.location.name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

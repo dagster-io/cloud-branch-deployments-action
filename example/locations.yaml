@@ -1,0 +1,5 @@
+locations:
+  - location_name: testloc
+    image: 764506304434.dkr.ecr.us-west-2.amazonaws.com/branch-deployments-gh-action-test:latest
+    code_source:
+      python_file: repo.py

@@ -21,5 +21,6 @@ outputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  post-entrypoint: 'clean_entrypoint.sh'
   args:
     - ${{ inputs.pr }}

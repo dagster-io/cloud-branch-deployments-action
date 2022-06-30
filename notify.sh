@@ -4,7 +4,9 @@
 # Load JSON-encoded location info into env vars
 # This produces the env vars
 # LOCATION_NAME, LOCATION_LOCATION_FILE, LOCATION_REGISTRY
-source $(python expand_json_env.py)
+source $(python expand_json_env.py); echo $LOCATION_NAME
+
+env
 
 PR_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
 export GITHUB_RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"

@@ -51,10 +51,17 @@ jobs:
           location: ${{ toJson(matrix.location) }}
           image_tag: ${{ github.sha }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
 
-      - name: Dagster Cloud notify
+      - name: Notify build success
+        uses: ./notify
+        with:
+          pr: "${{ github.event.number }}"
+          location: ${{ toJson(matrix.location) }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Notify build failure
+        if: ${{ failure() }}
         uses: ./notify
         with:
           pr: "${{ github.event.number }}"

@@ -3,7 +3,7 @@
 echo $INPUT_LOCATION
 
 # Load JSON-encoded location info into env vars
-source $(python expand_json_env.py)
+. $(python expand_json_env.py)
 
 env
 

@@ -2,7 +2,13 @@
 
 echo $INPUT_LOCATION
 
-python -c "import json; print(json.load(${INPUT_LOCATION}))"
+# Load JSON-encoded location info into env vars
+source <(python -c "\
+import json, os; \
+all(print(f'LOCATION_{k.upper()}={v}') for k, v in json.loads('${INPUT_LOCATION}').items()) \
+")
+
+env
 
 TIMESTAMP=$(git log -1 --format='%cd' --date=unix)
 MESSAGE=$(git log -1 --format='%s')
@@ -36,6 +42,6 @@ export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
 dagster-cloud workspace add-location \
     --url "${DAGSTER_CLOUD_URL}/${DEPLOYMENT_NAME}" \
     --api-token "$DAGSTER_CLOUD_API_TOKEN" \
-    --location-file "${INPUT_LOCATION_FILE}" \
-    --location-name "${INPUT_LOCATION_NAME}" \
-    --image "${INPUT_REGISTRY}:${INPUT_IMAGE_TAG}"
+    --location-file "${LOCATION_LOCATION_FILE}" \
+    --location-name "${LOCATION_NAME}" \
+    --image "${LOCATION_REGISTRY}:${INPUT_IMAGE_TAG}"

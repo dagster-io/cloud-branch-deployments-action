@@ -4,18 +4,12 @@ description: 'Greet someone and record the time'
 inputs:
   pr:
     required: false
-  registry:
-    required: false
-  location_file:
-    required: false
   image_tag:
-    required: false
-  location_name:
-    required: false
-  dagster_cloud_url:
     required: false
   organization_id:
     required: false
+  location:
+    required: true
 runs:
   using: 'docker'
   image: '../Dockerfile'

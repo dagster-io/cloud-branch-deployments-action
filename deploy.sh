@@ -1,5 +1,9 @@
 #!/bin/sh -
 
+echo $INPUT_LOCATION
+
+python -c "import json; print(json.load(${INPUT_LOCATION}))"
+
 TIMESTAMP=$(git log -1 --format='%cd' --date=unix)
 MESSAGE=$(git log -1 --format='%s')
 EMAIL=$(git log -1 --format='%ae')
@@ -11,12 +15,12 @@ BRANCH_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_HEAD_REF}"
 
 COMMENTS_URL="${PR_URL}/comments"
 
-if [ -z $INPUT_DAGSTER_CLOUD_URL ]; then
-  export INPUT_DAGSTER_CLOUD_URL="https://dagster.cloud/${INPUT_ORGANIZATION_ID}"
+if [ -z $DAGSTER_CLOUD_URL ]; then
+  export DAGSTER_CLOUD_URL="https://dagster.cloud/${INPUT_ORGANIZATION_ID}"
 fi
 
 export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
-    --url "$INPUT_DAGSTER_CLOUD_URL" \
+    --url "$DAGSTER_CLOUD_URL" \
     --api-token "$DAGSTER_CLOUD_API_TOKEN" \
     --git-repo-name "$GITHUB_REPOSITORY" \
     --branch-name "$GITHUB_HEAD_REF" \
@@ -30,7 +34,7 @@ export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
 
 
 dagster-cloud workspace add-location \
-    --url "${INPUT_DAGSTER_CLOUD_URL}/${DEPLOYMENT_NAME}" \
+    --url "${DAGSTER_CLOUD_URL}/${DEPLOYMENT_NAME}" \
     --api-token "$DAGSTER_CLOUD_API_TOKEN" \
     --location-file "${INPUT_LOCATION_FILE}" \
     --location-name "${INPUT_LOCATION_NAME}" \

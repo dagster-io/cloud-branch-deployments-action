@@ -38,7 +38,11 @@ def main():
 
     deployment_url = f"{org_url}/{deployment_name}/"
 
-    image_url = SUCCESS_IMAGE_URL if action == "complete" else PENDING_IMAGE_URL
+    image_url = (
+        SUCCESS_IMAGE_URL
+        if action == "complete"
+        else (FAILED_IMAGE_URL if action == "failed" else PENDING_IMAGE_URL)
+    )
     status_image = f'<img src="{image_url}" width=25 height=25/>'
 
     time_str = datetime.datetime.now(datetime.timezone.utc).strftime("%b %d, %Y at %I:%M %p (%Z)")

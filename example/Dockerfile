@@ -6,4 +6,6 @@ RUN pip install \
 
 WORKDIR /opt/dagster/app
 
+RUN exit 1
+
 COPY repo.py /opt/dagster/app

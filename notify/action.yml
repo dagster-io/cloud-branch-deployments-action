@@ -15,7 +15,7 @@ inputs:
     required: false
 runs:
   using: 'docker'
-  image: 'public.ecr.aws/a6x1l7i5/gh-action-test:0.2'
+  image: 'docker://public.ecr.aws/a6x1l7i5/gh-action-test:0.3'
   # image: '../Dockerfile'
   entrypoint: '/notify.sh'
   args:

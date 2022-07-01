@@ -5,6 +5,10 @@
 # LOCATION_NAME, LOCATION_LOCATION_FILE, LOCATION_REGISTRY
 source $(python expand_json_env.py)
 
+if [ -z $LOCATION_REGISTRY ]; then
+    LOCATION_REGISTRY="${!LOCATION_REGISTRY_ENV}"
+fi
+
 # Extract git metadata
 TIMESTAMP=$(git log -1 --format='%cd' --date=unix)
 MESSAGE=$(git log -1 --format='%s')

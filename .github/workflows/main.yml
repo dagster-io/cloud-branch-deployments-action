@@ -75,7 +75,7 @@ jobs:
           action: "complete"
           pr: "${{ github.event.number }}"
           location: ${{ toJson(matrix.location) }}
-          deployment: ${{ steps.deploy.outputs.time }}"
+          deployment: ${{ steps.deploy.outputs.deployment }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Notify build failure

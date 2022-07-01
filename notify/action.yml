@@ -11,6 +11,8 @@ inputs:
     required: false
   location:
     required: true
+  deployment:
+    required: false
 runs:
   using: 'docker'
   image: 'public.ecr.aws/a6x1l7i5/gh-action-test:0.1'

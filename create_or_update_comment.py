@@ -22,7 +22,7 @@ def main():
     pr_id = int(os.getenv("INPUT_PR"))
     repo_id = os.getenv("GITHUB_REPOSITORY")
     action = os.getenv("INPUT_ACTION")
-    deployment_name = os.getenv("DEPLOYMENT_NAME")
+    deployment_name = os.getenv("INPUT_DEPLOYMENT")
 
     org_url = os.getenv("DAGSTER_CLOUD_URL")
     github_run_url = os.getenv("GITHUB_RUN_URL")

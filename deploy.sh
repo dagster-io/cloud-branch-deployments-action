@@ -32,6 +32,7 @@ export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
     --author-name "$NAME" \
     --author-email "$EMAIL")
 
+echo "::set-output name=deployment::${DEPLOYMENT_NAME}"
 
 dagster-cloud workspace add-location \
     --url "${DAGSTER_CLOUD_URL}/${DEPLOYMENT_NAME}" \

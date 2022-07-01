@@ -61,6 +61,7 @@ jobs:
 
       - name: Deploy to Dagster Cloud
         uses: ./deploy
+        id: deploy
         with:
           pr: "${{ github.event.number }}"
           location: ${{ toJson(matrix.location) }}
@@ -74,6 +75,7 @@ jobs:
           action: "complete"
           pr: "${{ github.event.number }}"
           location: ${{ toJson(matrix.location) }}
+          deployment: ${{ steps.deploy.outputs.time }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Notify build failure

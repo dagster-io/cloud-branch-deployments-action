@@ -12,7 +12,8 @@ inputs:
     required: true
 runs:
   using: 'docker'
-  image: '../Dockerfile'
+  image: '764506304434.dkr.ecr.us-west-2.amazonaws.com/dagster-cloud-cli-dev:the_action'
+  # image: '../Dockerfile'
   entrypoint: '/deploy.sh'
   args:
     - ${{ inputs.pr }}

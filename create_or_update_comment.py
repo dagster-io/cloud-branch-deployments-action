@@ -49,7 +49,7 @@ def main():
     image_url = SUCCESS_IMAGE_URL
 
     if action == "pending":
-        message = f"[Building]({github_run_url})"
+        message = f"[Building...]({github_run_url})"
         image_url = PENDING_IMAGE_URL
     elif action == "failed":
         message = f"[Deploy failed]({github_run_url})"

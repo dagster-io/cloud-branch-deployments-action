@@ -23,8 +23,10 @@ if [ -z $DAGSTER_CLOUD_URL ]; then
   export DAGSTER_CLOUD_URL="https://dagster.cloud/${INPUT_ORGANIZATION_ID}"
 fi
 
+export DAGSTER_CLOUD_URL="https://cereal-inc-too.dogfood.dagster.cloud"
+
 export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
-    --url "$DAGSTER_CLOUD_URL" \
+    --url "${DAGSTER_CLOUD_URL}" \
     --api-token "$DAGSTER_CLOUD_API_TOKEN" \
     --git-repo-name "$GITHUB_REPOSITORY" \
     --branch-name "$GITHUB_HEAD_REF" \

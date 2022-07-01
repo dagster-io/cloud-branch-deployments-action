@@ -12,7 +12,7 @@ inputs:
     required: true
 runs:
   using: 'docker'
-  image: '764506304434.dkr.ecr.us-west-2.amazonaws.com/dagster-cloud-cli-dev:the_action'
+  image: 'public.ecr.aws/a6x1l7i5/gh-action-test:0.1'
   # image: '../Dockerfile'
   entrypoint: '/deploy.sh'
   args:

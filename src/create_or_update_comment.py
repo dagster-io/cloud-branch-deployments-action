@@ -2,6 +2,10 @@ import datetime
 from github import Github
 import os
 
+"""
+Creates or updates a build status comment on a Pull Request, for branch deployments.
+"""
+
 # SUCCESS_IMAGE_URL = (
 #     "https://github.com/dagster-io/cloud-branch-deployments-action/blob/main/assets/success.svg"
 # )
@@ -18,6 +22,7 @@ FAILED_IMAGE_URL = "https://raw.githubusercontent.com/dagster-io/dagster/master/
 
 
 def main():
+    # Fetch various pieces of info from the environment
     g = Github(os.getenv("GITHUB_TOKEN"))
     pr_id = int(os.getenv("INPUT_PR"))
     repo_id = os.getenv("GITHUB_REPOSITORY")
@@ -34,6 +39,10 @@ def main():
 
     comments = pr.get_issue_comments()
     comment_to_update = None
+
+    # Check if a comment exists on the PR from the github actions user
+    # which is specific to this location name
+    # otherwise we create a new comment
     for comment in comments:
         if (
             comment.user.login == "github-actions[bot]"

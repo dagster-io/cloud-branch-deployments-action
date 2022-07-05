@@ -9,12 +9,6 @@ if [ -z $LOCATION_REGISTRY ]; then
     LOCATION_REGISTRY="${!LOCATION_REGISTRY_ENV}"
 fi
 
-# Extract git metadata
-TIMESTAMP=$(git log -1 --format='%cd' --date=unix)
-MESSAGE=$(git log -1 --format='%s')
-EMAIL=$(git log -1 --format='%ae')
-NAME=$(git log -1 --format='%an')
-
 if [ -z $DAGSTER_CLOUD_URL ]; then
     if [-z $INPUT_DAGSTER_CLOUD_URL ]; then
         export DAGSTER_CLOUD_URL="https://dagster.cloud/${INPUT_ORGANIZATION_ID}"
@@ -26,6 +20,12 @@ fi
 # Determine if we should use branch deployment behavior (no depl specified)
 # or if we should use a specific deployment
 if [ -z $INPUT_DEPLOYMENT ]; then
+    # Extract git metadata
+    TIMESTAMP=$(git log -1 --format='%cd' --date=unix)
+    MESSAGE=$(git log -1 --format='%s')
+    EMAIL=$(git log -1 --format='%ae')
+    NAME=$(git log -1 --format='%an')
+
     # Assemble github URLs
     PR_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
     BRANCH_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_HEAD_REF}"

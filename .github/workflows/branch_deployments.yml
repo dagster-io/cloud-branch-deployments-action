@@ -1,6 +1,7 @@
 name: Dagster Branch Deployments
-on: pull_request
-
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
 env:
   DAGSTER_CLOUD_URL: https://pied-piper.dogfood.dagster.cloud
 

@@ -32,24 +32,33 @@ if [ -z $INPUT_DEPLOYMENT ]; then
     PR_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
     BRANCH_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_HEAD_REF}"
 
-    AVATAR_URL=$(python fetch_github_avatar.py)
+    AVATAR_URL=$(python /fetch_github_avatar.py)
+
+    PARAMS=(
+        --url "${DAGSTER_CLOUD_URL}"
+        --api-token "$DAGSTER_CLOUD_API_TOKEN"
+        --git-repo-name "$GITHUB_REPOSITORY"
+        --branch-name "$GITHUB_HEAD_REF"
+        --branch-url "$BRANCH_URL"
+        --commit-hash "$GITHUB_SHA"
+        --timestamp "$TIMESTAMP"
+        --commit-message "$MESSAGE"
+        --author-name "$NAME"
+        --author-email "$EMAIL"
+    )
+    if [[ ! -z $INPUT_PR ]]; then
+        PARAMS+=(--pull-request-url "$PR_URL")
+        PARAMS+=(--pull-request-id "$INPUT_PR")
+    fi
+    if [[ ! -z $STATUS_CAPS ]]; then
+        PARAMS+=(--pull-request-status "$STATUS_CAPS")
+    fi
+    if [[ ! -z $AVATAR_URL ]]; then
+        PARAMS+=(--author-avatar-url "$AVATAR_URL")
+    fi
 
     # Create or update branch deployment
-    export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
-        --url "${DAGSTER_CLOUD_URL}" \
-        --api-token "$DAGSTER_CLOUD_API_TOKEN" \
-        --git-repo-name "$GITHUB_REPOSITORY" \
-        --branch-name "$GITHUB_HEAD_REF" \
-        --branch-url "$BRANCH_URL" \
-        --pull-request-url "$PR_URL" \
-        --pull-request-id "$INPUT_PR" \
-        --pull-request-status "$STATUS_CAPS" \
-        --commit-hash "$GITHUB_SHA" \
-        --timestamp "$TIMESTAMP" \
-        --commit-message "$MESSAGE" \
-        --author-name "$NAME" \
-        --author-email "$EMAIL" \
-        --author-avatar-url "$AVATAR_URL")
+    export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update ${PARAMS[@]})
 else
     export DEPLOYMENT_NAME=$INPUT_DEPLOYMENT
 fi

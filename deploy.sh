@@ -47,6 +47,8 @@ else
     export DEPLOYMENT_NAME=$INPUT_DEPLOYMENT
 fi
 
+echoing "Deploying location ${LOCATION_NAME} to deployment ${DEPLOYMENT_NAME}..."
+
 echo "::set-output name=deployment::${DEPLOYMENT_NAME}"
 
 dagster-cloud workspace add-location \

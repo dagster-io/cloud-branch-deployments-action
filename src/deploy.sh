@@ -46,21 +46,28 @@ if [ -z $INPUT_DEPLOYMENT ]; then
         --author-name "$NAME"
         --author-email "$EMAIL"
     )
-    if [[ ! -z $INPUT_PR ]]; then
+    if [ ! -z $INPUT_PR ]; then
         PARAMS+=(--pull-request-url "$PR_URL")
         PARAMS+=(--pull-request-id "$INPUT_PR")
     fi
-    if [[ ! -z $STATUS_CAPS ]]; then
+    if [ ! -z $STATUS_CAPS ]; then
         PARAMS+=(--pull-request-status "$STATUS_CAPS")
     fi
-    if [[ ! -z $AVATAR_URL ]]; then
+    if [ ! -z $AVATAR_URL ]; then
         PARAMS+=(--author-avatar-url "$AVATAR_URL")
     fi
 
+    echo "params ${PARAMS[@]@Q}"
+
     # Create or update branch deployment
-    export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update $(printf " %q" "${PARAMS[@]}"))
+    export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update ${PARAMS[@]@Q})
 else
     export DEPLOYMENT_NAME=$INPUT_DEPLOYMENT
+fi
+
+if [ -z $DEPLOYMENT_NAME ]]; then
+    echo "Failed to update branch deployment"
+    exit 1
 fi
 
 echoing "Deploying location ${LOCATION_NAME} to deployment ${DEPLOYMENT_NAME}..."

@@ -26,6 +26,8 @@ if [ -z $INPUT_DEPLOYMENT ]; then
     EMAIL=$(git log -1 --format='%ae')
     NAME=$(git log -1 --format='%an')
 
+    STATUS_CAPS = a=`echo $INPUT_PR_STATUS | tr '[a-z]' '[A-Z]'`
+
     # Assemble github URLs
     PR_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
     BRANCH_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_HEAD_REF}"
@@ -38,6 +40,7 @@ if [ -z $INPUT_DEPLOYMENT ]; then
         --branch-name "$GITHUB_HEAD_REF" \
         --branch-url "$BRANCH_URL" \
         --pull-request-url "$PR_URL" \
+        --pull-request-id "$INPUT_PR" \
         --commit-hash "$GITHUB_SHA" \
         --timestamp "$TIMESTAMP" \
         --commit-message "$MESSAGE" \

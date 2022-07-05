@@ -24,11 +24,6 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: PR status
-        shell: bash
-        run: |
-          echo "state ${{ github.event.pull_request.merged && 'merged' || github.event.pull_request.state }}"
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

@@ -58,7 +58,7 @@ if [ -z $INPUT_DEPLOYMENT ]; then
     fi
 
     # Create or update branch deployment
-    export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update ${PARAMS[@]})
+    export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update $(printf " %q" "${PARAMS[@]}"))
 else
     export DEPLOYMENT_NAME=$INPUT_DEPLOYMENT
 fi

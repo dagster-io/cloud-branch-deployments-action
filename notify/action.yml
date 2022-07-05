@@ -1,18 +1,28 @@
-# action.yml
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Update PR Message'
+description: 'Updates the Dagster Cloud build message on a Pull Request.'
 inputs:
-  action:
-    required: false
-    default: "complete"
-  pr:
-    required: false
   organization_id:
     required: false
-  location:
-    required: true
+    description: 'The organization ID of your Dagster Cloud organization.'
   deployment:
     required: false
+    description: 'The deployment to deploy to. If unset, automatically creates or updates the branch deployment associated with the branch.'
+  location:
+    required: true
+    description: 'The code location to deploy.'
+  image_tag:
+    required: true
+    description: 'The image tag to deploy.'
+  pr:
+    required: false
+    description: 'The PR identifier for this PR, if any, used for branch deployments.'
+  action:
+    required: false
+    description: 'The build state to display, must be one of "complete", "pending", or "failed".'
+    default: 'complete'
+  dagster_cloud_url:
+    required: false
+    description: 'Alternative to providing organization ID. The URL of your Dagster Cloud organization.'
 runs:
   using: 'docker'
   image: 'docker://public.ecr.aws/a6x1l7i5/gh-action-test:0.4'

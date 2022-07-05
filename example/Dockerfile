@@ -1,8 +1,7 @@
 FROM python:3.8-slim
 
-RUN pip install \
-    dagster \
-    dagster-cloud
+COPY requirements.txt /requirements.txt
+RUN pip install -r /requirements.txt
 
 WORKDIR /opt/dagster/app
 

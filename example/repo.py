@@ -1,27 +1,30 @@
-from dagster import RunRequest, pipeline, repository, schedule, sensor, solid
+import csv
+import requests
+from dagster import asset, define_asset_job, repository
 
 
-@solid()
-def foo_solid(_):
-    pass
+@asset
+def cereals():
+    response = requests.get("https://docs.dagster.io/assets/cereal.csv")
+    lines = response.text.split("\n")
+    cereal_rows = [row for row in csv.DictReader(lines)]
+
+    return cereal_rows
 
 
-@solid()
-def foo_solid_2(_):
-    pass
+@asset
+def nabisco_cereals(cereals):
+    """Cereals manufactured by Nabisco"""
+    return [row for row in cereals if row["mfr"] == "N"]
 
 
-@pipeline
-def foo_pipeline():
-    foo_solid()
-    foo_solid_2()
-
-
-@pipeline
-def other_foo_pipeline():
-    foo_solid()
+all_cereals_job = define_asset_job(name="all_cereals_job")
 
 
 @repository
-def foo_repo():
-    return [foo_pipeline]
+def repo():
+    return [
+        cereals,
+        nabisco_cereals,
+        all_cereals_job,
+    ]

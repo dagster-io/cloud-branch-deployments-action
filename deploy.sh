@@ -20,7 +20,11 @@ PR_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
 BRANCH_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_HEAD_REF}"
 
 if [ -z $DAGSTER_CLOUD_URL ]; then
-  export DAGSTER_CLOUD_URL="https://dagster.cloud/${INPUT_ORGANIZATION_ID}"
+  if [-z $INPUT_DAGSTER_CLOUD_URL ]; then
+    export DAGSTER_CLOUD_URL="https://dagster.cloud/${INPUT_ORGANIZATION_ID}"
+  else
+    export DAGSTER_CLOUD_URL="${INPUT_DAGSTER_CLOUD_URL}"
+  fi
 fi
 
 export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \

@@ -12,11 +12,7 @@ jobs:
       matrix:
         # Here, define the code locations that should be built and deployed
         location:
-          - name: test
-            build_folder: example
-            registry: 764506304434.dkr.ecr.us-west-2.amazonaws.com/branch-deployments-gh-action-test
-            location_file: example/workspace.yaml
-          - name: test2
+          - name: example_location
             build_folder: example
             registry: 764506304434.dkr.ecr.us-west-2.amazonaws.com/branch-deployments-gh-action-test
             location_file: example/workspace.yaml

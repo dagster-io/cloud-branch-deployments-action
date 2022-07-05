@@ -23,8 +23,8 @@ if [ -z $INPUT_DEPLOYMENT ]; then
     # Extract git metadata
     TIMESTAMP=$(git log -1 --format='%cd' --date=unix)
     MESSAGE=$(git log -1 --format='%s')
-    EMAIL=$(git log -1 --format='%ae')
-    NAME=$(git log -1 --format='%an')
+    export EMAIL=$(git log -1 --format='%ae')
+    export NAME=$(git log -1 --format='%an')
 
     STATUS_CAPS=`echo $INPUT_PR_STATUS | tr '[a-z]' '[A-Z]'`
 

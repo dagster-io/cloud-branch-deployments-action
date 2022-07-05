@@ -27,7 +27,7 @@ outputs:
     description: 'The Cloud deployment associated with this branch.'
 runs:
   using: 'docker'
-  image: 'docker://public.ecr.aws/a6x1l7i5/gh-action-test:0.17'
+  image: 'docker://public.ecr.aws/a6x1l7i5/gh-action-test:0.18'
   # image: '../src/Dockerfile'
   entrypoint: '/deploy.sh'
   args:

@@ -1,5 +1,8 @@
 name: Dagster Prod Deploy
-on: push
+on:
+  push:
+    branches:
+      - 'main'
 
 env:
   DAGSTER_CLOUD_URL: https://pied-piper.dogfood.dagster.cloud

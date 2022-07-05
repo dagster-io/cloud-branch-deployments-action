@@ -16,12 +16,18 @@ jobs:
           - name: example_location
             build_folder: example
             registry: 764506304434.dkr.ecr.us-west-2.amazonaws.com/branch-deployments-gh-action-test
-            location_file: example/workspace.yaml
+            location_file: example/cloud_workspace.yaml
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
+
+      - name: PR status
+        shell: bash
+        run: |
+          echo "state ${{ github.event.pull_request.state }}"
+          echo "state ${{ github.event.pull_request.merged }}"
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

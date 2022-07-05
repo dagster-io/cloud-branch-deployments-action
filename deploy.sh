@@ -15,30 +15,37 @@ MESSAGE=$(git log -1 --format='%s')
 EMAIL=$(git log -1 --format='%ae')
 NAME=$(git log -1 --format='%an')
 
-# Assemble github URLs
-PR_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
-BRANCH_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_HEAD_REF}"
-
 if [ -z $DAGSTER_CLOUD_URL ]; then
-  if [-z $INPUT_DAGSTER_CLOUD_URL ]; then
-    export DAGSTER_CLOUD_URL="https://dagster.cloud/${INPUT_ORGANIZATION_ID}"
-  else
-    export DAGSTER_CLOUD_URL="${INPUT_DAGSTER_CLOUD_URL}"
-  fi
+    if [-z $INPUT_DAGSTER_CLOUD_URL ]; then
+        export DAGSTER_CLOUD_URL="https://dagster.cloud/${INPUT_ORGANIZATION_ID}"
+    else
+        export DAGSTER_CLOUD_URL="${INPUT_DAGSTER_CLOUD_URL}"
+    fi
 fi
 
-export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
-    --url "${DAGSTER_CLOUD_URL}" \
-    --api-token "$DAGSTER_CLOUD_API_TOKEN" \
-    --git-repo-name "$GITHUB_REPOSITORY" \
-    --branch-name "$GITHUB_HEAD_REF" \
-    --branch-url "$BRANCH_URL" \
-    --pull-request-url "$PR_URL" \
-    --commit-hash "$GITHUB_SHA" \
-    --timestamp "$TIMESTAMP" \
-    --commit-message "$MESSAGE" \
-    --author-name "$NAME" \
-    --author-email "$EMAIL")
+# Determine if we should use branch deployment behavior (no depl specified)
+# or if we should use a specific deployment
+if [ -z $INPUT_DEPLOYMENT ]; then
+    # Assemble github URLs
+    PR_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
+    BRANCH_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_HEAD_REF}"
+
+    # Create or update branch deployment
+    export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
+        --url "${DAGSTER_CLOUD_URL}" \
+        --api-token "$DAGSTER_CLOUD_API_TOKEN" \
+        --git-repo-name "$GITHUB_REPOSITORY" \
+        --branch-name "$GITHUB_HEAD_REF" \
+        --branch-url "$BRANCH_URL" \
+        --pull-request-url "$PR_URL" \
+        --commit-hash "$GITHUB_SHA" \
+        --timestamp "$TIMESTAMP" \
+        --commit-message "$MESSAGE" \
+        --author-name "$NAME" \
+        --author-email "$EMAIL")
+else
+    export DEPLOYMENT_NAME=$INPUT_DEPLOYMENT
+fi
 
 echo "::set-output name=deployment::${DEPLOYMENT_NAME}"
 

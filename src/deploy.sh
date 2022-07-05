@@ -26,11 +26,13 @@ if [ -z $INPUT_DEPLOYMENT ]; then
     EMAIL=$(git log -1 --format='%ae')
     NAME=$(git log -1 --format='%an')
 
-    STATUS_CAPS = a=`echo $INPUT_PR_STATUS | tr '[a-z]' '[A-Z]'`
+    STATUS_CAPS=`echo $INPUT_PR_STATUS | tr '[a-z]' '[A-Z]'`
 
     # Assemble github URLs
     PR_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pull/${INPUT_PR}"
     BRANCH_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_HEAD_REF}"
+
+    AVATAR_URL=$(python fetch_github_avatar.py)
 
     # Create or update branch deployment
     export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
@@ -41,11 +43,13 @@ if [ -z $INPUT_DEPLOYMENT ]; then
         --branch-url "$BRANCH_URL" \
         --pull-request-url "$PR_URL" \
         --pull-request-id "$INPUT_PR" \
+        --pull-request-status "$STATUS_CAPS" \
         --commit-hash "$GITHUB_SHA" \
         --timestamp "$TIMESTAMP" \
         --commit-message "$MESSAGE" \
         --author-name "$NAME" \
-        --author-email "$EMAIL")
+        --author-email "$EMAIL" \
+        --author-avatar-url "$AVATAR_URL")
 else
     export DEPLOYMENT_NAME=$INPUT_DEPLOYMENT
 fi

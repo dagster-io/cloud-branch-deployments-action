@@ -55,7 +55,6 @@ jobs:
         id: deploy
         with:
           deployment: prod
-          pr: "${{ github.event.number }}"
           location: ${{ toJson(matrix.location) }}
           image_tag: ${{ github.sha }}
         env:

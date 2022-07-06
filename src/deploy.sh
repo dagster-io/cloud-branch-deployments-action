@@ -35,21 +35,38 @@ if [ -z $INPUT_DEPLOYMENT ]; then
     AVATAR_URL=$(python /fetch_github_avatar.py)
 
     # Create or update branch deployment
-    export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
-        --url "${DAGSTER_CLOUD_URL}" \
-        --api-token "$DAGSTER_CLOUD_API_TOKEN" \
-        --git-repo-name "$GITHUB_REPOSITORY" \
-        --branch-name "$GITHUB_HEAD_REF" \
-        --branch-url "$BRANCH_URL" \
-        --pull-request-url "$PR_URL" \
-        --pull-request-id "$INPUT_PR" \
-        --pull-request-status "$STATUS_CAPS" \
-        --commit-hash "$GITHUB_SHA" \
-        --timestamp "$TIMESTAMP" \
-        --commit-message "$MESSAGE" \
-        --author-name "$NAME" \
-        --author-email "$EMAIL" \
-        --author-avatar-url "$AVATAR_URL")
+    if [ -z $AVATAR_URL ]; then
+        export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
+            --url "${DAGSTER_CLOUD_URL}" \
+            --api-token "$DAGSTER_CLOUD_API_TOKEN" \
+            --git-repo-name "$GITHUB_REPOSITORY" \
+            --branch-name "$GITHUB_HEAD_REF" \
+            --branch-url "$BRANCH_URL" \
+            --pull-request-url "$PR_URL" \
+            --pull-request-id "$INPUT_PR" \
+            --pull-request-status "$STATUS_CAPS" \
+            --commit-hash "$GITHUB_SHA" \
+            --timestamp "$TIMESTAMP" \
+            --commit-message "$MESSAGE" \
+            --author-name "$NAME" \
+            --author-email "$EMAIL")
+    else
+        export DEPLOYMENT_NAME=$(dagster-cloud branch-deployment create-or-update \
+            --url "${DAGSTER_CLOUD_URL}" \
+            --api-token "$DAGSTER_CLOUD_API_TOKEN" \
+            --git-repo-name "$GITHUB_REPOSITORY" \
+            --branch-name "$GITHUB_HEAD_REF" \
+            --branch-url "$BRANCH_URL" \
+            --pull-request-url "$PR_URL" \
+            --pull-request-id "$INPUT_PR" \
+            --pull-request-status "$STATUS_CAPS" \
+            --commit-hash "$GITHUB_SHA" \
+            --timestamp "$TIMESTAMP" \
+            --commit-message "$MESSAGE" \
+            --author-name "$NAME" \
+            --author-email "$EMAIL" \
+            --author-avatar-url "$AVATAR_URL")
+    fi
 else
     export DEPLOYMENT_NAME=$INPUT_DEPLOYMENT
 fi

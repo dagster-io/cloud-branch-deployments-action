@@ -1,118 +1,58 @@
 # Dagster Cloud Branch Deployments GitHub Action
 
-GitHub Action to deploy code locations to Dagster Cloud and to manage Branch Deployments.
+[GitHub Actions](https://docs.github.com/en/actions) to deploy code locations to Dagster Cloud and to manage Branch Deployments.
 
 ## Quickstart
 
-Want to get started right away, or look at a functional example for reference? We provide a [quickstart template repo](https://github.com/dagster-io/dagster-cloud-cicd-action-quickstart) which you can use to get CI & branch deployments for your Cloud instance up and running quickly.
+Want to get started right away, or look at a functional example for reference? We provide a [quickstart template repo](https://github.com/dagster-io/dagster-cloud-branch-deployments-quickstart) which you can use to get CI & branch deployments for your Cloud instance up and running quickly.
 
-## Usage
+## Overview
+### `deploy` Action
 
-The core `deploy` action, which deploys code to a Cloud deployment, requires that you have built and pushed a Docker image containing your code already. See the [example GitHub workflow](./.github/deploy.yml) for more information.
+The `deploy` action can be used to deploy code to Dagster Cloud as part of a static Deployment (e.g. `prod`) or to dynamically-created Branch Deployments.
 
-The action relies on a `cloud_workspace.yaml` file which describes the configuration for each of the Dagster Cloud code
-locations.
+The `deploy` action assumes that a Docker image containing Dagster code has already been built and pushed to an image registry accessible by your Dagster Cloud agent.
 
-### Example Job
+#### Updating Code on Static Deployment
 
-This example uses the [`docker/login-action`](https://github.com/docker/login-action) action to set up Docker registry access. ECR users may want to use the [`aws-actions/amazon-ecr-login`](https://github.com/aws-actions/amazon-ecr-login) action instead. To speed up Docker builds, you may also
-use the [`satackey/action-docker-layer-caching`](https://github.com/satackey/action-docker-layer-caching) action.
-
-```yaml
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  dagster-cloud:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build images & update Dagster Cloud
-        uses: dagster-io/dagster-cloud-cicd-action/deploy@v0.2.2
-        with:
-          dagit-url: https://hooli.dagster.cloud/prod
-          api-token: ${{ secrets.DAGSTER_AGENT_TOKEN }}
-```
-
-### Example `locations.yaml`
-
-This locations file indicates that two locations, `foo` and `bar`, should be built. These
-locations have
-Dockerfiles located at `/foo_src/Dockerfile` and `/bar_src/Dockerfile`, and are pushed to the
-`dagster-io/foo` and `dagster-io/bar` registries, respectively.
+To update code for a single, fixed deployment (e.g. `prod`), you must
+pass the deployment to the `deploy` action directly.
 
 ```yaml
-locations:
-  # Location name
-  foo:
-    # Path to build directory, which must contain a Dockerfile or
-    # requirements.txt file, relative to the locations.yaml folder
-    build: ./foo_src
-
-    # The base Docker image to use, if providing only a requirements.txt
-    # file and no Dockerfile
-    base_image: python:3.8-slim
-
-    # Docker registry to push the built Docker image to
-    registry: dagster-io/foo
-
-    # Python file containing the job repo
-    # Can alternatively supply package_name, as below
-    python_file: repo.py
-
-  bar:
-    build: ./bar_src
-    registry: dagster-io/bar
-    package_name: bar
+- name: Deploy to Production
+  uses: ./deploy
+  id: deploy
+  with:
+    organization_id: pied-piper
+    deployment: prod
+    location: ${{ toJson(matrix.location) }}
+    image_tag: ${{ github.sha }}
+  env:
+    DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
 ```
 
-### More Examples
+#### Updating Branch Deployment
 
-More examples are provided in the [`example` folder](./example).
+To create or update a branch deployment for a given PR, you should
+instead pass information about the PR itself.
 
-## Customization
-
-### Inputs
-
-| Name            | Description                                                                                                              |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `dagit-url`     | **(Required)** URL to your Dagit Cloud instance, including the deployment path.                                          |
-| `api-token`     | **(Required)** Dagster Cloud Agent API token.                                                                            |
-| `location-file` | Path to the `locations.yaml` file defining the code locations to update. Defaults to `/locations.yaml` in the repo root. |
-| `image-tag`     | Tag for the built Docker images, defaults to the first 6 chars of git hash.                                              |
-| `parallel`      | Whether to build and push Docker images in parallel. Defaults to `true`.                                                 |
-
-### `locations.yaml` Properties
-
-Each location specified in the `locations.yaml` can have the following properties:
-
-| Name                | Description                                                                                                                                                                                |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `build`             | **(Required)** Path to the build directory relative to the `locations.yaml`'s folder. Build directory must contain a `Dockerfile` or `requirements.txt` file.                              |
-| `registry`          | **(Required)** Docker registry to push the built Docker image to.                                                                                                                          |
-| `package_name`      | Installed Python package containing the [Dagster Repository](https://docs.dagster.io/concepts/repositories-workspaces/repositories). Can alternatively use `python_file` or `module_name`. |
-| `module_name`       | Python module containing the [Dagster Repository](https://docs.dagster.io/concepts/repositories-workspaces/repositories). Can alternatively use `python_file` or `package_name`.           |
-| `python_file`       | Python file containing the [Dagster Repository](https://docs.dagster.io/concepts/repositories-workspaces/repositories). Can alternatively use `package_name` or `module_name`.             |
-| `working_directory` | (Optional) Working directory to use for importing Python modules when loading the repository.                                                                                              |
-| `executable_path`   | (Optional) Path to reach the executable to use for the Python environment to load the repository. Defaults to the installed `dagster` command-line entry point.                            |
-| `attribute`         | (Optional) Specifies either a repository or a function that returns a repository. Can be used when the code contains multiple repositories but only one should be included.                |
-| `base_image`        | If the build directory only contains a `requirements.txt` file and no `Dockerfile`, specifies the base Docker image to use to build the code location.                                     |
-| `target`            | If providing a multistage `Dockerfile`, can be used to specify the [target stage](https://docs.docker.com/develop/develop-images/multistage-build/) to build.                              |
-
-## Developing the CI/CD Action
-
-The CI/CD action is run from the packaged files in the `dist/*` folder. When making a change, be sure to repackage the files:
-
-```sh
-npm run prepare
+```yaml
+- name: Deploy to Branch Deployment
+  uses: ./deploy
+  id: deploy
+  with:
+    organization_id: pied-piper
+    pr: "${{ github.event.number }}"
+    pr_status: "${{ github.event.pull_request.merged && 'merged' || github.event.pull_request.state }}"
+    location: ${{ toJson(matrix.location) }}
+    image_tag: ${{ github.sha }}
+  env:
+    DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
 ```
+
+### `notify` Action
+
+The optional `notify` action updates a status message on a Pull Request with the build and deploy status of your Dagster Cloud code locations.
+
+In our [sample workflow](./.github/workflows/branch_deployments.yml), it is invoked at the start of the build process to mark the build as `pending` and after the build marks it as `complete` or `failed`.
+

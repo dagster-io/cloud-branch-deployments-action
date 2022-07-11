@@ -1,6 +1,7 @@
 
-FROM 764506304434.dkr.ecr.us-west-2.amazonaws.com/dagster-cloud-cli-dev:0.9
-# RUN pip install dagster-cloud-cli
+FROM python:3.8.12-slim
+RUN pip install dagster-cloud-cli \ 
+                PyGithub
 
 # Copy over various Python utilities
 COPY create_or_update_comment.py /create_or_update_comment.py

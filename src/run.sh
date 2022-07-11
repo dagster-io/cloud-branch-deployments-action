@@ -23,5 +23,5 @@ dagster-cloud job launch \
     --location "${LOCATION_NAME}" \
     --repository "${INPUT_REPOSITORY}" \
     --job "${INPUT_JOB}"
-    # --tags "${INPUT_TAGS_JSON}"
+    --tags "${INPUT_TAGS_JSON}"
     # --config-json "${INPUT_CONFIG_JSON}"

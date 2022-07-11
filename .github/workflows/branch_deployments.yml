@@ -94,5 +94,6 @@ jobs:
           deployment: ${{ steps.deploy.outputs.deployment }}
           repository: repo
           job: all_cereals_job
+          tags_json: "{\"foo\": \"bar\"}"
         env:
           DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}

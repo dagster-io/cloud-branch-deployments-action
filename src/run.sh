@@ -17,7 +17,8 @@ if [ -z $DAGSTER_CLOUD_URL ]; then
     fi
 fi
 
-dagster-cloud job launch \
+RUN_ID=$(
+    dagster-cloud job launch \
     --url "${DAGSTER_CLOUD_URL}/${INPUT_DEPLOYMENT}" \
     --api-token "$DAGSTER_CLOUD_API_TOKEN" \
     --location "${LOCATION_NAME}" \
@@ -25,3 +26,6 @@ dagster-cloud job launch \
     --job "${INPUT_JOB}" \
     --tags "${INPUT_TAGS_JSON}" \
     --config-json "${INPUT_CONFIG_JSON}"
+)
+
+echo "::set-output name=run_id::${RUN_ID}"

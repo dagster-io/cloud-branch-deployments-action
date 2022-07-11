@@ -1,5 +1,7 @@
-name: 'Update PR Message'
-description: 'Updates the Dagster Cloud build message on a Pull Request.'
+name: 'Launch run'
+description: |
+  Launches a run of the specified job on the provided deployment. Can be used to
+  run smoketests or test setup on a branch deployment.
 inputs:
   organization_id:
     required: false
@@ -9,7 +11,7 @@ inputs:
     description: 'The deployment to run a job on.'
   location:
     required: true
-    description: 'The code location to deploy.'
+    description: 'The code location in which the job repo lives.'
   repository:
     required: false
     description: 'The repository in which the job lives.'
@@ -27,9 +29,12 @@ inputs:
   dagster_cloud_url:
     required: false
     description: 'Alternative to providing organization ID. The URL of your Dagster Cloud organization.'
+outputs:
+  run_id:
+    description: 'The ID of the launched run.'
 runs:
   using: 'docker'
-  image: 'docker://public.ecr.aws/a6x1l7i5/gh-action-test:0.29'
+  image: 'docker://public.ecr.aws/a6x1l7i5/gh-action-test:0.30'
   # image: '../src/Dockerfile'
   entrypoint: '/run.sh'
   args:

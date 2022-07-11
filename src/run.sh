@@ -22,6 +22,6 @@ dagster-cloud job launch \
     --api-token "$DAGSTER_CLOUD_API_TOKEN" \
     --location "${LOCATION_NAME}" \
     --repository "${INPUT_REPOSITORY}" \
-    --job "${INPUT_JOB}"
+    --job "${INPUT_JOB}" \
     --tags "${INPUT_TAGS_JSON}"
     # --config-json "${INPUT_CONFIG_JSON}"

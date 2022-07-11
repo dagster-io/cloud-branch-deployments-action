@@ -1,0 +1,28 @@
+name: 'Update PR Message'
+description: 'Updates the Dagster Cloud build message on a Pull Request.'
+inputs:
+  organization_id:
+    required: false
+    description: 'The organization ID of your Dagster Cloud organization.'
+  deployment:
+    required: false
+    description: 'The deployment to run a job on.'
+  location:
+    required: true
+    description: 'The code location to deploy.'
+  repostiory:
+    required: false
+    description: 'The repository in which the job lives.'
+  job:
+    required: false
+    description: 'The job to run.'
+  dagster_cloud_url:
+    required: false
+    description: 'Alternative to providing organization ID. The URL of your Dagster Cloud organization.'
+runs:
+  using: 'docker'
+  image: 'docker://public.ecr.aws/a6x1l7i5/gh-action-test:0.24'
+  # image: '../src/Dockerfile'
+  entrypoint: '/run.sh'
+  args:
+    - ${{ inputs.pr }}

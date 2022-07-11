@@ -15,3 +15,4 @@ COPY fetch_github_avatar.py /fetch_github_avatar.py
 
 COPY notify.sh /notify.sh
 COPY deploy.sh /deploy.sh
+COPY run.sh /run.sh

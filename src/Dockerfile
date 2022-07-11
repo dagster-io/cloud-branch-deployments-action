@@ -1,6 +1,7 @@
 
 FROM python:3.8.12-slim
-RUN pip install dagster-cloud-cli \ 
+RUN pip install dagster \
+                dagster-cloud-cli \ 
                 PyGithub
 
 # Copy over various Python utilities

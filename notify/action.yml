@@ -25,7 +25,7 @@ inputs:
     description: 'Alternative to providing organization ID. The URL of your Dagster Cloud organization.'
 runs:
   using: 'docker'
-  image: 'docker://public.ecr.aws/a6x1l7i5/gh-action-test:0.21'
+  image: 'docker://public.ecr.aws/a6x1l7i5/gh-action-test:0.22'
   # image: '../src/Dockerfile'
   entrypoint: '/notify.sh'
   args:

@@ -10,7 +10,7 @@ inputs:
   location:
     required: true
     description: 'The code location to deploy.'
-  repostiory:
+  repository:
     required: false
     description: 'The repository in which the job lives.'
   job:
@@ -21,7 +21,7 @@ inputs:
     description: 'Alternative to providing organization ID. The URL of your Dagster Cloud organization.'
 runs:
   using: 'docker'
-  image: 'docker://public.ecr.aws/a6x1l7i5/gh-action-test:0.24'
+  image: 'docker://public.ecr.aws/a6x1l7i5/gh-action-test:0.25'
   # image: '../src/Dockerfile'
   entrypoint: '/run.sh'
   args:

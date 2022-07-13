@@ -86,3 +86,14 @@ jobs:
           location: ${{ toJson(matrix.location) }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Launch a run
+        uses: ./run
+        with:
+          location: ${{ toJson(matrix.location) }}
+          deployment: ${{ steps.deploy.outputs.deployment }}
+          repository: repo
+          job: all_cereals_job
+          tags_json: "{\"foo\": \"bar\"}"
+        env:
+          DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}

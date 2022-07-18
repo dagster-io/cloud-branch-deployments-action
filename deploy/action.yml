@@ -22,6 +22,9 @@ inputs:
   dagster_cloud_url:
     required: false
     description: 'Alternative to providing organization ID. The URL of your Dagster Cloud organization.'
+  registry:
+    required: false
+    description: 'The Docker registry to push to; overrides any provided alongside the location input.'
 outputs:
   deployment:
     description: 'The Cloud deployment associated with this branch.'

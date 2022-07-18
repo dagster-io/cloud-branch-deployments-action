@@ -26,8 +26,8 @@ runs:
           output_obj = [
               {
                   'name': location['location_name'],
-                  'directory': location['build']['directory'],
-                  'registry': location['build']['registry'],
+                  'directory': location.get('build', {'directory': '.'}).get('directory'),
+                  'registry': location.get('build', {'directory': '.'}).get('registry'),
                   'location_file': str(workspace),
               }
               for location in workspace_contents_yaml['locations']

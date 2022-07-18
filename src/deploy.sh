@@ -82,7 +82,7 @@ if [ -z $DEPLOYMENT_NAME ]; then
 fi
 
 echo "Deploying location ${LOCATION_NAME} to deployment ${DEPLOYMENT_NAME}..."
-
+echo "Using image ${LOCATION_REGISTRY}:${INPUT_IMAGE_TAG}"
 echo "::set-output name=deployment::${DEPLOYMENT_NAME}"
 
 dagster-cloud workspace add-location \

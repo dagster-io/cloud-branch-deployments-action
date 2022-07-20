@@ -20,7 +20,7 @@ pass the deployment to the `deploy` action directly.
 
 ```yaml
 - name: Deploy to Production
-  uses: ./deploy
+  uses: dagster-io/cloud-branch-deployments-action/deploy@v0.2.0
   id: deploy
   with:
     organization_id: pied-piper
@@ -38,7 +38,7 @@ instead pass information about the PR itself.
 
 ```yaml
 - name: Deploy to Branch Deployment
-  uses: ./deploy
+  uses: dagster-io/cloud-branch-deployments-action/deploy@v0.2.0
   id: deploy
   with:
     organization_id: pied-piper

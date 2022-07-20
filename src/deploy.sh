@@ -5,8 +5,12 @@
 # LOCATION_NAME, LOCATION_LOCATION_FILE, LOCATION_REGISTRY
 source $(python /expand_json_env.py)
 
-if [ -z $LOCATION_REGISTRY ]; then
-    LOCATION_REGISTRY="${!LOCATION_REGISTRY_ENV}"
+if [ -z $INPUT_REGISTRY ]; then
+    if [ -z $LOCATION_REGISTRY ]; then
+        LOCATION_REGISTRY="${!LOCATION_REGISTRY_ENV}"
+    fi
+else
+    LOCATION_REGISTRY="${INPUT_REGISTRY}"
 fi
 
 if [ -z $DAGSTER_CLOUD_URL ]; then

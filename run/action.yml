@@ -9,9 +9,14 @@ inputs:
   deployment:
     required: false
     description: 'The deployment to run a job on.'
+    
   location:
     required: true
     description: 'The code location in which the job repo lives.'
+  location_name:
+    required: false
+    description: 'The name of the location to deploy, needed if not providing "location" input.'
+
   repository:
     required: false
     description: 'The repository in which the job lives.'
@@ -34,7 +39,7 @@ outputs:
     description: 'The ID of the launched run.'
 runs:
   using: 'docker'
-  image: 'docker://dagster/branch-deployments-action:v0.2.0'
+  image: 'docker://dagster/branch-deployments-action:v0.2.1'
   # image: '../src/Dockerfile'
   entrypoint: '/run.sh'
   args:

@@ -19,13 +19,15 @@ LOCATION_BUILD_FOLDER=test
 
 OUTPUT_FILE_NAME = "json_env"
 INPUT_ENV_VAR_NAME = "INPUT_LOCATION"
-OUTPUT_ENV_VAR_PREFIX = "LOCATION_"
+OUTPUT_ENV_VAR_PREFIX = "INPUT_"
 
 
 def main():
     with open(OUTPUT_FILE_NAME, mode="w") as f:
-        for k, v in json.loads(os.getenv(INPUT_ENV_VAR_NAME)).items():
-            f.write(f"{OUTPUT_ENV_VAR_PREFIX}{k.upper()}={v}\n")
+        input_location = os.getenv(INPUT_ENV_VAR_NAME)
+        if input_location:
+            for k, v in json.loads(os.getenv(INPUT_ENV_VAR_NAME)).items():
+                f.write(f"{OUTPUT_ENV_VAR_PREFIX}{k.upper()}={v}\n")
     print(OUTPUT_FILE_NAME)
 
 

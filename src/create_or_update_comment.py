@@ -32,7 +32,7 @@ def main():
     org_url = os.getenv("DAGSTER_CLOUD_URL")
     github_run_url = os.getenv("GITHUB_RUN_URL")
 
-    location_name = os.getenv("LOCATION_NAME")
+    location_name = os.getenv("INPUT_LOCATION_NAME")
 
     repo = g.get_repo(repo_id)
     pr = repo.get_pull(pr_id)

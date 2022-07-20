@@ -2,8 +2,11 @@
 
 # Load JSON-encoded location info into env vars
 # This produces the env vars
-# LOCATION_NAME, LOCATION_LOCATION_FILE, LOCATION_REGISTRY
+# INPUT_NAME, INPUT_LOCATION_FILE, INPUT_REGISTRY
 source $(python /expand_json_env.py)
+if [ -z $INPUT_LOCATION_NAME ]; then
+    INPUT_LOCATION_NAME="${INPUT_NAME}"
+fi
 
 if [ -z $LOCATION_REGISTRY ]; then
     LOCATION_REGISTRY="${!LOCATION_REGISTRY_ENV}"
@@ -21,7 +24,7 @@ RUN_ID=$(
     dagster-cloud job launch \
     --url "${DAGSTER_CLOUD_URL}/${INPUT_DEPLOYMENT}" \
     --api-token "$DAGSTER_CLOUD_API_TOKEN" \
-    --location "${LOCATION_NAME}" \
+    --location "${INPUT_LOCATION_NAME}" \
     --repository "${INPUT_REPOSITORY}" \
     --job "${INPUT_JOB}" \
     --tags "${INPUT_TAGS_JSON}" \

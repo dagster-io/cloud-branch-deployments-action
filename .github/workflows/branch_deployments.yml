@@ -69,25 +69,13 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # - name: Deploy to Dagster Cloud
-      #   uses: ./deploy
-      #   id: deploy
-      #   with:
-      #     pr: "${{ github.event.number }}"
-      #     pr_status: "${{ github.event.pull_request.merged && 'merged' || github.event.pull_request.state }}"
-      #     location: ${{ toJson(matrix.location) }}
-      #     image_tag: ${{ github.sha }}
-      #   env:
-      #     DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
       - name: Deploy to Dagster Cloud
         uses: ./deploy
         id: deploy
         with:
           pr: "${{ github.event.number }}"
           pr_status: "${{ github.event.pull_request.merged && 'merged' || github.event.pull_request.state }}"
-          location_name: ${{ matrix.location.name }}
-          registry: ${{ matrix.location.registry }}
-          location_file: ${{ matrix.location.location_file }}
+          location: ${{ toJson(matrix.location) }}
           image_tag: ${{ github.sha }}
         env:
           DAGSTER_CLOUD_API_TOKEN: ${{ secrets.DAGSTER_CLOUD_API_TOKEN }}
@@ -97,7 +85,7 @@ jobs:
         with:
           action: "complete"
           pr: "${{ github.event.number }}"
-          location_name: ${{ matrix.location.name }}
+          location: ${{ toJson(matrix.location) }}
           deployment: ${{ steps.deploy.outputs.deployment }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -5,12 +5,12 @@
 # INPUT_NAME, INPUT_LOCATION_FILE, INPUT_REGISTRY
 source $(python /expand_json_env.py)
 if [ -z $INPUT_LOCATION_NAME ]; then
-    INPUT_LOCATION_NAME=$INPUT_NAME
-else
+    INPUT_LOCATION_NAME="${INPUT_NAME}"
+fi
 
 if [ -z $INPUT_REGISTRY ]; then
     INPUT_REGISTRY="${!INPUT_REGISTRY_ENV}"
-else
+fi
 
 if [ -z $DAGSTER_CLOUD_URL ]; then
     if [ -z $INPUT_DAGSTER_CLOUD_URL ]; then
@@ -89,4 +89,4 @@ dagster-cloud workspace add-location \
     --api-token "$DAGSTER_CLOUD_API_TOKEN" \
     --location-file "${INPUT_LOCATION_FILE}" \
     --location-name "${INPUT_LOCATION_NAME}" \
-    --image "${LOCATION_REGISTRY}:${INPUT_IMAGE_TAG}"
+    --image "${INPUT_REGISTRY}:${INPUT_IMAGE_TAG}"

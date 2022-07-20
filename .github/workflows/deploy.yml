@@ -8,18 +8,30 @@ env:
   DAGSTER_CLOUD_URL: https://pied-piper.dogfood.dagster.cloud
 
 jobs:
+  # Reads the list of locations to build from the cloud workspace file
+  load_build_info:
+    runs-on: ubuntu-latest
+    outputs:
+      build_info: ${{ steps.load-build-info.outputs.build_info }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Load build info
+        id: load-build-info
+        uses: ./load_build_info
+        with:
+          dagster_cloud_file: example/cloud_workspace.yaml
+
+  # Build, push, deploy each location
   dagster_cloud_build_push:
     runs-on: ubuntu-latest
-    name: Dagster Prod Deploy
+    needs: load_build_info
+    name: Dagster Branch Deployments
     strategy:
       fail-fast: false
+      # Iterate over every location discovered in the cloud workspace file
       matrix:
-        # Here, define the code locations that should be built and deployed
-        location:
-          - name: example_location
-            build_folder: example
-            registry: 764506304434.dkr.ecr.us-west-2.amazonaws.com/branch-deployments-gh-action-test
-            location_file: example/cloud_workspace.yaml
+        location: ${{ fromJSON(needs.load_build_info.outputs.build_info) }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -42,7 +54,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: ${{ matrix.location.build_folder }}
+          context: ${{ matrix.location.directory }}
           push: true
           tags: "${{ matrix.location.registry }}:${{ github.sha }}"
           labels: |

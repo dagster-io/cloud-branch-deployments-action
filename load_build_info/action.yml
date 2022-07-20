@@ -27,6 +27,7 @@ runs:
               {
                   'name': location['location_name'],
                   'directory': location.get('build', {'directory': '.'}).get('directory'),
+                  'build_folder': location.get('build', {'directory': '.'}).get('directory'),
                   'registry': location.get('build', {'directory': '.'}).get('registry'),
                   'location_file': str(workspace),
               }

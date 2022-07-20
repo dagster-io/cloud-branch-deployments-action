@@ -30,7 +30,7 @@ outputs:
     description: 'The Cloud deployment associated with this branch.'
 runs:
   using: 'docker'
-  image: 'docker://public.ecr.aws/a6x1l7i5/gh-action-test:load-build-info'
+  image: 'docker://dagster/branch-deployments-action:v0.2.0'
   # image: '../src/Dockerfile'
   entrypoint: '/deploy.sh'
   args:

@@ -30,7 +30,7 @@ inputs:
 
 runs:
   using: 'docker'
-  image: 'docker://dagster/branch-deployments-action:v0.2.0'
+  image: 'docker://dagster/branch-deployments-action:v0.2.1'
   # image: '../src/Dockerfile'
   entrypoint: '/notify.sh'
   args:

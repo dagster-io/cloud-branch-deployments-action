@@ -54,7 +54,7 @@ def main():
 
     deployment_url = f"{org_url}/{deployment_name}/"
 
-    message = f"[View in Cloud]({deployment_url})"
+    message = f"[View in Dagster Cloud]({deployment_url})"
     image_url = SUCCESS_IMAGE_URL
 
     if action == "pending":

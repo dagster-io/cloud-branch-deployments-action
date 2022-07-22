@@ -39,7 +39,7 @@ outputs:
     description: "The Cloud deployment associated with this branch."
 runs:
   using: "docker"
-  image: "public.ecr.aws/a6x1l7i5/gh-action-test:prha-debug"
+  image: "docker://public.ecr.aws/a6x1l7i5/gh-action-test:prha-debug"
   # image: 'docker://dagster/branch-deployments-action:v0.2.1'
   # image: "../src/Dockerfile"
   entrypoint: "/deploy.sh"

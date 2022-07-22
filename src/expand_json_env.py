@@ -27,7 +27,9 @@ def main():
         input_location = os.getenv(INPUT_ENV_VAR_NAME)
         if input_location:
             for k, v in json.loads(os.getenv(INPUT_ENV_VAR_NAME)).items():
-                f.write(f"{OUTPUT_ENV_VAR_PREFIX}{k.upper()}={v}\n")
+                output_env_var_name = f"{OUTPUT_ENV_VAR_PREFIX}{k.upper()}"
+                if os.getenv(output_env_var_name) is None:
+                    f.write(f"{output_env_var_name}={v}\n")
     print(OUTPUT_FILE_NAME)
 
 

@@ -3,6 +3,9 @@
 # Load JSON-encoded location info into env vars
 # This produces the env vars
 # INPUT_NAME, INPUT_LOCATION_FILE, INPUT_REGISTRY
+echo "REGISTRY = ${INPUT_REGISTRY}"
+cat $(python /expand_json_env.py)
+
 source $(python /expand_json_env.py)
 
 # The env var we get out of the `location` input is just `INPUT_NAME`

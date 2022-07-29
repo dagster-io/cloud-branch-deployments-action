@@ -39,7 +39,7 @@ outputs:
     description: 'The ID of the launched run.'
 runs:
   using: 'docker'
-  image: 'docker://dagster/branch-deployments-action:v0.2.2'
+  image: 'docker://dagster/branch-deployments-action:claire-fix'
   # image: '../src/Dockerfile'
   entrypoint: '/run.sh'
   args:

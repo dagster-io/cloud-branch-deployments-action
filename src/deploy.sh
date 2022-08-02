@@ -96,6 +96,6 @@ dagster-cloud workspace add-location \
     --location-file "${INPUT_LOCATION_FILE}" \
     --location-name "${INPUT_LOCATION_NAME}" \
     --image "${INPUT_REGISTRY}:${INPUT_IMAGE_TAG}" \
-    --location-load-timeout 360 \
+    --location-load-timeout 600 \
     --agent-heartbeat-timeout 90
 

@@ -39,7 +39,7 @@ outputs:
     description: 'The Cloud deployment associated with this branch.'
 runs:
   using: 'docker'
-  image: 'docker://dagster/branch-deployments-action:v0.2.2'
+  image: 'docker://dagster/branch-deployments-action:v0.2.3'
   # image: '../src/Dockerfile'
   entrypoint: '/deploy.sh'
   args:

@@ -82,7 +82,7 @@ fi
 
 
 if [ -z $DEPLOYMENT_NAME ]; then
-    echo "Failed to update branch deployment"
+    echo "::error title=Failed to update branch deployment::Failed to update branch deployment"
     exit 1
 fi
 
@@ -99,3 +99,7 @@ dagster-cloud workspace add-location \
     --location-load-timeout 600 \
     --agent-heartbeat-timeout 90
 
+if [ $? -ne 0 ]; then
+  echo "::error title=Deploy failed::Deploy failed. To view status of your code locations, visit ${DAGSTER_CLOUD_URL}/${DEPLOYMENT_NAME}/workspace"
+  exit 1
+fi

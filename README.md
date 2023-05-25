@@ -1,6 +1,6 @@
 # [Deprecated] Dagster Cloud Branch Deployments GitHub Action
 
-> Please use https://dagster.io/dagster-cloud-action 
+> Please use https://github.com/dagster-io/dagster-cloud-action
 
 [GitHub Actions](https://docs.github.com/en/actions) to deploy code locations to Dagster Cloud and to manage Branch Deployments.
 
